@@ -1,7 +1,41 @@
-.DS_Store
 *.pyc
-*.egg-info
 *.swp
-tags
-node_modules
-__pycache__
+.DS_Store
+*.egg-info
+dist/
+build/
+*.log
+node_modules/
+.vscode/
+.idea/
+__pycache__/
+*.sqlite
+.pytest_cache/
+.coverage
+htmlcov/
+*.bak
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Test files (keep in repo but ignore test data)
+test_*.db
+test_site/
+sites/test.local/
+
+# Build artifacts
+*.min.js
+*.min.css
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db

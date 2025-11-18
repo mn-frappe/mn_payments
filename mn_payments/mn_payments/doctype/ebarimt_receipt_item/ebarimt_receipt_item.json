@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "creation": "2025-11-18 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_name",
+  "classification_code",
+  "tax_type",
+  "column_break_4",
+  "qty",
+  "unit_price",
+  "total_amount",
+  "section_break_8",
+  "total_vat",
+  "total_city_tax",
+  "column_break_11",
+  "measure_unit",
+  "tax_product_code",
+  "bar_code",
+  "bar_code_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "classification_code",
+   "fieldtype": "Data",
+   "label": "Classification Code",
+   "length": 20
+  },
+  {
+   "fieldname": "tax_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tax Type",
+   "options": "VAT_ABLE\nVAT_FREE\nVAT_ZERO\nNOT_VAT"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
+  },
+  {
+   "fieldname": "unit_price",
+   "fieldtype": "Currency",
+   "label": "Unit Price",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_vat",
+   "fieldtype": "Currency",
+   "label": "Total VAT",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "total_city_tax",
+   "fieldtype": "Currency",
+   "label": "Total City Tax",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "measure_unit",
+   "fieldtype": "Data",
+   "label": "Measure Unit",
+   "length": 10
+  },
+  {
+   "fieldname": "tax_product_code",
+   "fieldtype": "Data",
+   "label": "Tax Product Code",
+   "length": 20
+  },
+  {
+   "fieldname": "bar_code",
+   "fieldtype": "Data",
+   "label": "Bar Code"
+  },
+  {
+   "fieldname": "bar_code_type",
+   "fieldtype": "Select",
+   "label": "Barcode Type",
+   "options": "UNDEFINED\nGS1\nISBN"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-11-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "Ebarimt Receipt Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

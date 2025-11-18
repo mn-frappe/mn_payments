@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:invoice_id",
+ "creation": "2025-11-18 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "invoice_id",
+  "invoice_code",
+  "invoice_status",
+  "column_break_4",
+  "amount",
+  "currency",
+  "column_break_7",
+  "created_date",
+  "paid_date",
+  "section_break_10",
+  "sender_invoice_no",
+  "sender_name",
+  "sender_tin",
+  "column_break_14",
+  "description",
+  "callback_url",
+  "section_break_17",
+  "payment_urls",
+  "deeplink_qr",
+  "qr_text",
+  "qr_image"
+ ],
+ "fields": [
+  {
+   "fieldname": "invoice_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Invoice ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "invoice_code",
+   "fieldtype": "Data",
+   "label": "Invoice Code"
+  },
+  {
+   "fieldname": "invoice_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "UNPAID\nPAID\nPAID_MANUAL\nCANCELED\nFAILED\nREFUND\nREFUNDED\nPARTIALLY_REFUNDED"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Select",
+   "label": "Currency",
+   "options": "MNT\nUSD\nCNY"
+  },
+  {
+   "fieldname": "column_break_7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_date",
+   "fieldtype": "Datetime",
+   "label": "Created Date"
+  },
+  {
+   "fieldname": "paid_date",
+   "fieldtype": "Datetime",
+   "label": "Paid Date"
+  },
+  {
+   "fieldname": "section_break_10",
+   "fieldtype": "Section Break",
+   "label": "Sender Information"
+  },
+  {
+   "fieldname": "sender_invoice_no",
+   "fieldtype": "Data",
+   "label": "Sender Invoice No"
+  },
+  {
+   "fieldname": "sender_name",
+   "fieldtype": "Data",
+   "label": "Sender Name"
+  },
+  {
+   "fieldname": "sender_tin",
+   "fieldtype": "Data",
+   "label": "Sender TIN"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "callback_url",
+   "fieldtype": "Data",
+   "label": "Callback URL"
+  },
+  {
+   "fieldname": "section_break_17",
+   "fieldtype": "Section Break",
+   "label": "Payment Links"
+  },
+  {
+   "fieldname": "payment_urls",
+   "fieldtype": "Table",
+   "label": "Payment URLs",
+   "options": "QPay Payment URL"
+  },
+  {
+   "fieldname": "deeplink_qr",
+   "fieldtype": "Code",
+   "label": "Deeplink QR Code Data",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "qr_text",
+   "fieldtype": "Long Text",
+   "label": "QR Text"
+  },
+  {
+   "fieldname": "qr_image",
+   "fieldtype": "Attach Image",
+   "label": "QR Image"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "QPay Invoice",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

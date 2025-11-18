@@ -1,0 +1,50 @@
+{
+ "actions": [],
+ "creation": "2025-11-18 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "name_field",
+  "description",
+  "link",
+  "logo"
+ ],
+ "fields": [
+  {
+   "fieldname": "name_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "link",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Link"
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Data",
+   "label": "Logo URL"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-11-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "QPay Payment URL",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

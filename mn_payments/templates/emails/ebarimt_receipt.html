@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2196F3;
+            margin: 0;
+            font-size: 24px;
+        }
+        .header p {
+            color: #666;
+            margin: 5px 0 0 0;
+        }
+        .receipt-info {
+            margin: 20px 0;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #333;
+        }
+        .info-value {
+            color: #666;
+        }
+        .amount-row {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        .qr-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        .qr-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .qr-section img {
+            max-width: 250px;
+            height: auto;
+            margin: 10px auto;
+        }
+        .lottery-section {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-radius: 8px;
+            border: 2px solid #ffc107;
+        }
+        .lottery-section h3 {
+            margin: 0 0 10px 0;
+            color: #856404;
+        }
+        .lottery-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #856404;
+            letter-spacing: 2px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+        .verification-info {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+        }
+        .verification-info p {
+            margin: 5px 0;
+            color: #1976d2;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧾 Ebarimt Tax Receipt</h1>
+            <p>Mongolian Tax Authority Official Receipt</p>
+        </div>
+
+        <div class="receipt-info">
+            <div class="info-row">
+                <span class="info-label">Bill ID:</span>
+                <span class="info-value">{{ bill_id }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Date:</span>
+                <span class="info-value">{{ date }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Receipt Type:</span>
+                <span class="info-value">{{ receipt_type }}</span>
+            </div>
+        </div>
+
+        {% if lottery %}
+        <div class="lottery-section">
+            <h3>🎰 Lottery Number</h3>
+            <div class="lottery-number">{{ lottery }}</div>
+            <p style="margin: 10px 0 0 0; color: #856404; font-size: 14px;">
+                Use this number to participate in the monthly tax lottery!
+            </p>
+        </div>
+        {% endif %}
+
+        <div class="receipt-info">
+            <div class="info-row amount-row">
+                <span class="info-label">Total Amount:</span>
+                <span class="info-value">{{ "{:,.2f}".format(total_amount) }} ₮</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">VAT (10%):</span>
+                <span class="info-value">{{ "{:,.2f}".format(total_vat) }} ₮</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">City Tax (1%):</span>
+                <span class="info-value">{{ "{:,.2f}".format(total_city_tax) }} ₮</span>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <h3>Scan to Verify</h3>
+            <img src="{{ qr_image }}" alt="Receipt QR Code">
+            <p style="margin: 10px 0 0 0; color: #666; font-size: 14px;">
+                Scan this QR code to verify receipt authenticity
+            </p>
+        </div>
+
+        <div class="verification-info">
+            <p><strong>📱 Verify Online:</strong></p>
+            <p>Visit <a href="https://ebarimt.mn" target="_blank">ebarimt.mn</a></p>
+            <p>Or scan the QR code with your smartphone</p>
+        </div>
+
+        <div class="footer">
+            <p>This is an official tax receipt issued by the Mongolian Tax Authority.</p>
+            <p>Please keep this receipt for your records.</p>
+            <p style="margin-top: 10px;">
+                &copy; {{ frappe.utils.now_datetime().year }} Digital Consulting Service LLC
+            </p>
+        </div>
+    </div>
+</body>
+</html>

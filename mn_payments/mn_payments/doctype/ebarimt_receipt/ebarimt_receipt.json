@@ -1,0 +1,187 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:bill_id",
+ "creation": "2025-11-18 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "bill_id",
+  "lottery_number",
+  "receipt_date",
+  "receipt_type",
+  "column_break_5",
+  "merchant_tin",
+  "pos_no",
+  "branch_no",
+  "district_code",
+  "customer_tin",
+  "section_break_11",
+  "total_amount",
+  "total_vat",
+  "total_city_tax",
+  "column_break_15",
+  "status",
+  "message",
+  "section_break_18",
+  "qr_data",
+  "qr_image",
+  "section_break_21",
+  "items"
+ ],
+ "fields": [
+  {
+   "fieldname": "bill_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bill ID",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "lottery_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lottery Number"
+  },
+  {
+   "fieldname": "receipt_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Receipt Date"
+  },
+  {
+   "fieldname": "receipt_type",
+   "fieldtype": "Select",
+   "label": "Receipt Type",
+   "options": "B2C_RECEIPT\nB2B_RECEIPT\nB2C_INVOICE\nB2B_INVOICE"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "merchant_tin",
+   "fieldtype": "Data",
+   "label": "Merchant TIN",
+   "length": 20
+  },
+  {
+   "fieldname": "pos_no",
+   "fieldtype": "Data",
+   "label": "POS Number",
+   "length": 20
+  },
+  {
+   "fieldname": "branch_no",
+   "fieldtype": "Data",
+   "label": "Branch Number",
+   "length": 10
+  },
+  {
+   "fieldname": "district_code",
+   "fieldtype": "Data",
+   "label": "District Code",
+   "length": 10
+  },
+  {
+   "fieldname": "customer_tin",
+   "fieldtype": "Data",
+   "label": "Customer TIN",
+   "length": 20
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break",
+   "label": "Amounts"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "total_vat",
+   "fieldtype": "Currency",
+   "label": "Total VAT",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "total_city_tax",
+   "fieldtype": "Currency",
+   "label": "Total City Tax",
+   "options": "MNT"
+  },
+  {
+   "fieldname": "column_break_15",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "SUCCESS\nERROR\nPAYMENT"
+  },
+  {
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "label": "Message"
+  },
+  {
+   "fieldname": "section_break_18",
+   "fieldtype": "Section Break",
+   "label": "QR Code"
+  },
+  {
+   "fieldname": "qr_data",
+   "fieldtype": "Long Text",
+   "label": "QR Data"
+  },
+  {
+   "fieldname": "qr_image",
+   "fieldtype": "Attach Image",
+   "label": "QR Image"
+  },
+  {
+   "fieldname": "section_break_21",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Receipt Items",
+   "options": "Ebarimt Receipt Item"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-18 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "Ebarimt Receipt",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
