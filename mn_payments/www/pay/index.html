@@ -1,0 +1,122 @@
+{% extends "templates/web.html" %}
+
+{% block page_content %}
+<div class="frappe-card p-4" style="max-width: 720px; margin: 0 auto;">
+  <h3 class="mb-3">Self-Service Payment</h3>
+  <form id="pay-form" class="frappe-form">
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" name="payer_email" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Payer Type</label>
+      <select class="form-select" name="payer_type" id="payer-type">
+        <option value="Individual">Individual</option>
+        <option value="Entity">Entity</option>
+      </select>
+    </div>
+    <div class="row mb-3 d-none" id="entity-fields">
+      <div class="col">
+        <label class="form-label">Registration No (TIN)</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="entity_registration">
+          <button class="btn btn-secondary" type="button" id="lookup-entity">Lookup</button>
+        </div>
+      </div>
+      <div class="col">
+        <label class="form-label">Entity Name</label>
+        <input type="text" class="form-control" name="entity_name">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Amount (MNT)</label>
+      <input type="number" class="form-control" name="amount" min="1" step="1" required>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label class="form-label">Special Tax Type (optional)</label>
+        <input type="text" class="form-control" name="special_tax_type" placeholder="Doc name or leave blank">
+      </div>
+      <div class="col">
+        <label class="form-label">City Tax (%)</label>
+        <input type="number" class="form-control" name="city_tax_rate" value="1" min="0" step="0.01">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Generate Payment</button>
+  </form>
+
+  <div id="result" class="mt-4 d-none">
+    <div class="alert alert-info" role="alert">
+      <div class="fw-bold">Scan to pay</div>
+      <div id="qr-text" class="small text-muted"></div>
+      <img id="qr-image" class="img-fluid mt-2" style="max-height: 240px;">
+    </div>
+    <div class="alert alert-secondary small" id="status-box">Status: Pending</div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('pay-form');
+  const result = document.getElementById('result');
+  const qrText = document.getElementById('qr-text');
+  const qrImage = document.getElementById('qr-image');
+  const statusBox = document.getElementById('status-box');
+  const entityFields = document.getElementById('entity-fields');
+  const payerType = document.getElementById('payer-type');
+  const lookupBtn = document.getElementById('lookup-entity');
+  let currentTxn = null;
+
+  payerType.addEventListener('change', () => {
+    entityFields.classList.toggle('d-none', payerType.value !== 'Entity');
+  });
+
+  lookupBtn.addEventListener('click', () => {
+    const tin = form.entity_registration.value;
+    if (!tin) return;
+    frappe.call({
+      method: "mn_payments.api.payment.lookup_entity",
+      args: { tin },
+      callback: (r) => {
+        if (r.message && r.message.found) {
+          form.entity_name.value = r.message.name || "";
+        } else {
+          frappe.msgprint("Entity not found in ebarimt lookup");
+        }
+      }
+    });
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const args = Object.fromEntries(new FormData(form).entries());
+    frappe.call({
+      method: "mn_payments.api.payment.create_payment",
+      args,
+      callback: (r) => {
+        if (!r.message) return;
+        currentTxn = r.message.transaction;
+        if (r.message.qr_text) qrText.textContent = r.message.qr_text;
+        if (r.message.qr_image) qrImage.src = r.message.qr_image.startsWith("data:") ? r.message.qr_image : `data:image/png;base64,${r.message.qr_image}`;
+        result.classList.remove('d-none');
+        pollStatus();
+      }
+    });
+  });
+
+  function pollStatus() {
+    if (!currentTxn) return;
+    frappe.call({
+      method: "mn_payments.api.payment.fetch_payment",
+      args: { transaction: currentTxn },
+      callback: (r) => {
+        if (!r.message) return;
+        statusBox.textContent = `Status: ${r.message.status}`;
+        if (["Paid", "Failed", "Cancelled", "Expired"].includes(r.message.status)) {
+          return;
+        }
+        setTimeout(pollStatus, 5000);
+      }
+    });
+  }
+</script>
+{% endblock %}

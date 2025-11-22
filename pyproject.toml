@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mn_payments"
+version = "0.1.0"
+description = "Mongolian payments and ebarimt integration"
+requires-python = ">=3.10"
+dependencies = [
+    "frappe>=15.0.0",
+    "qpay-client",
+    "qrcode",
+    "openpyxl>=3.0.0",
+    "requests>=2.0.0",
+]
+*** End Patch**");

@@ -1,0 +1,4 @@
+# Development dependencies for testing
+pytest>=7.0.0
+pytest-mock>=3.0.0
+openpyxl>=3.0.0  # For GS1 importer tests

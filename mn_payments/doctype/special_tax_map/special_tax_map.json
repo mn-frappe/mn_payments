@@ -1,0 +1,23 @@
+{
+ "doctype": "DocType",
+ "name": "Special Tax GS1 Map",
+ "module": "MN Payments",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "barcode_prefix",
+  "tax_type",
+  "description"
+ ],
+ "fields": [
+  {"fieldname": "barcode_prefix", "fieldtype": "Data", "label": "Barcode Prefix", "reqd": 1, "description": "GS1 prefix or barcode (use prefix for range matching)"},
+  {"fieldname": "tax_type", "fieldtype": "Link", "label": "Special Tax Type", "options": "Special Tax Type", "reqd": 1},
+  {"fieldname": "description", "fieldtype": "Small Text", "label": "Description"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "print": 1, "email": 1, "share": 1, "export": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
