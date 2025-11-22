@@ -10,7 +10,11 @@ bench get-app /path/to/mn_payments_clean
 bench --site <site> install-app mn_payments
 ```
 
-Configure Payment Provider (QPay) and Ebarimt Settings, then open `/pay` on your site.
+Configure Payment Provider (QPay) and `Ebarimt Settings`, then open `/pay` on your site.
+
+Security & setup notes:
+- Webhook signature verification (HMAC-SHA256) is enforced using the `Webhook Secret` from `Payment Provider`. Ensure you configure this secret in the provider record.
+- `Ebarimt Settings` DocType is required for Ebarimt/PosAPI features (receipt generation and TIN lookup); the app includes a patch to create a default settings document on install.
 
 ## Testing
 ```

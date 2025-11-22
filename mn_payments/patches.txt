@@ -1,1 +1,2 @@
-# keep empty for now
+# Patches
+mn_payments.patches.v1_0.create_default_ebarimt_settings
