@@ -3,8 +3,8 @@
 Simple test runner that manually runs tests with mocked dependencies.
 """
 
-import sys
 import os
+import sys
 
 # Add the app directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +27,7 @@ frappe_mock.utils = MagicMock()
 frappe_mock.utils.now = MagicMock(return_value="2025-11-22 12:00:00")
 frappe_mock.utils.get_datetime = MagicMock(return_value=MagicMock())
 frappe_mock.utils.getdate = MagicMock(return_value="2025-11-22")
+
 
 # Mock Document class
 class MockDocument:
@@ -60,6 +61,7 @@ class MockDocument:
     def validate(self):
         pass
 
+
 frappe_mock.Document = MockDocument
 
 # Mock specific Frappe classes
@@ -67,11 +69,13 @@ frappe_mock.model = MagicMock()
 frappe_mock.model.document = MagicMock()
 frappe_mock.model.document.Document = MockDocument
 
+
 # Mock QPaySettings
 class MockQPaySettings:
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
+
 
 # Mock qpay_client modules
 qpay_mock = MagicMock()
@@ -92,6 +96,7 @@ import unittest.mock
 frappe_mock.tests = MagicMock()
 frappe_mock.tests.utils = MagicMock()
 
+
 class MockFrappeTestCase(unittest.TestCase):
     def setUp(self):
         pass
@@ -99,7 +104,9 @@ class MockFrappeTestCase(unittest.TestCase):
     def tearDown(self):
         pass
 
+
 frappe_mock.tests.utils.FrappeTestCase = MockFrappeTestCase
+
 
 # Now import and run tests manually
 def run_tests():
@@ -107,7 +114,10 @@ def run_tests():
 
     # Test PaymentTransaction
     try:
-        from mn_payments.doctype.payment_transaction.payment_transaction import PaymentTransaction, scrub_sensitive_fields
+        from mn_payments.doctype.payment_transaction.payment_transaction import (
+            PaymentTransaction,
+            scrub_sensitive_fields,
+        )
 
         # Test compute_total
         doc = PaymentTransaction(amount=1000, special_tax=50, city_tax=10)
@@ -137,8 +147,10 @@ def run_tests():
         doc.name = "test_doc"
         doc._apply_privacy_rules()  # Apply privacy rules first
         # Mock the db operations
-        with unittest.mock.patch('mn_payments.doctype.payment_transaction.payment_transaction.frappe.db.set_value'), \
-             unittest.mock.patch('mn_payments.doctype.payment_transaction.payment_transaction.frappe.get_doc', return_value=doc):
+        with (
+            unittest.mock.patch('mn_payments.doctype.payment_transaction.payment_transaction.frappe.db.set_value'),
+            unittest.mock.patch('mn_payments.doctype.payment_transaction.payment_transaction.frappe.get_doc', return_value=doc),
+        ):
             scrub_sensitive_fields(["test_doc"])
             assert doc.qr_text is None, f'Expected None, got {doc.qr_text}'
             print("✓ test_scrub_sensitive_fields passed")
@@ -150,11 +162,16 @@ def run_tests():
 
     # Test GS1 Importer
     try:
-        from mn_payments.integrations.gs1.importer import _ensure_tax_type, _find_barcode_in_row
+        from mn_payments.integrations.gs1.importer import (
+            _ensure_tax_type,
+            _find_barcode_in_row,
+        )
 
         # Test _ensure_tax_type
-        with unittest.mock.patch('mn_payments.integrations.gs1.importer.frappe.db.get_value', return_value=None), \
-             unittest.mock.patch('mn_payments.integrations.gs1.importer.frappe.get_doc') as mock_get_doc:
+        with (
+            unittest.mock.patch('mn_payments.integrations.gs1.importer.frappe.db.get_value', return_value=None),
+            unittest.mock.patch('mn_payments.integrations.gs1.importer.frappe.get_doc') as mock_get_doc,
+        ):
             mock_doc = MagicMock()
             mock_doc.name = "On tsgoi"
             mock_get_doc.return_value = mock_doc
@@ -315,6 +332,7 @@ def run_tests():
     else:
         print("❌ Some tests failed")
         return 1
+
 
 if __name__ == '__main__':
     sys.exit(run_tests())

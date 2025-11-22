@@ -11,8 +11,9 @@ Usage:
 from __future__ import annotations
 
 import io
-import requests
+
 import frappe
+import requests
 from frappe import _
 
 try:
@@ -26,11 +27,13 @@ def _ensure_tax_type(tax_name: str, tax_rate: float) -> str:
     name = frappe.db.get_value("Special Tax Type", {"tax_name": tax_name})
     if name:
         return name
-    doc = frappe.get_doc({
-        "doctype": "Special Tax Type",
-        "tax_name": tax_name,
-        "rate": tax_rate,
-    })
+    doc = frappe.get_doc(
+        {
+            "doctype": "Special Tax Type",
+            "tax_name": tax_name,
+            "rate": tax_rate,
+        }
+    )
     doc.insert(ignore_permissions=True)
     return doc.name
 
@@ -133,7 +136,7 @@ def import_from_url(url: str, tax_name: str = "On tsgoi", tax_rate: float = 3.0)
             continue
         # store varying prefix lengths to help matching (store full barcode and shorter prefixes)
         # primary: full barcode
-        _create_map_entry(prefix, tax_type_name, description=f"Imported row")
+        _create_map_entry(prefix, tax_type_name, description="Imported row")
         imported += 1
     return {"imported": imported, "tax_type": tax_type_name}
 

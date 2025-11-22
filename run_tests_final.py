@@ -4,8 +4,8 @@ Test runner for mn_payments with mocked Frappe dependencies.
 This allows running tests outside a full Frappe bench environment.
 """
 
-import sys
 import os
+import sys
 
 # Add the app directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +28,7 @@ frappe_mock.utils = MagicMock()
 frappe_mock.utils.now = MagicMock(return_value="2025-11-22 12:00:00")
 frappe_mock.utils.get_datetime = MagicMock(return_value=MagicMock())
 frappe_mock.utils.getdate = MagicMock(return_value="2025-11-22")
+
 
 # Mock Document class
 class MockDocument:
@@ -61,6 +62,7 @@ class MockDocument:
     def validate(self):
         pass
 
+
 frappe_mock.Document = MockDocument
 
 # Mock specific Frappe classes
@@ -68,11 +70,13 @@ frappe_mock.model = MagicMock()
 frappe_mock.model.document = MagicMock()
 frappe_mock.model.document.Document = MockDocument
 
+
 # Mock QPaySettings
 class MockQPaySettings:
     def __init__(self, **kwargs):
         for k, v in kwargs.items():
             setattr(self, k, v)
+
 
 # Mock qpay_client modules
 qpay_mock = MagicMock()
@@ -94,12 +98,14 @@ import unittest
 frappe_mock.tests = MagicMock()
 frappe_mock.tests.utils = MagicMock()
 
+
 class MockFrappeTestCase(unittest.TestCase):
     def setUp(self):
         pass
 
     def tearDown(self):
         pass
+
 
 frappe_mock.tests.utils.FrappeTestCase = MockFrappeTestCase
 

@@ -1,6 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock
-from decimal import Decimal
+from unittest.mock import MagicMock, patch
 
 import frappe
 
@@ -22,17 +21,19 @@ class TestIntegrationFlow(unittest.TestCase):
         mock_ebarimt_gw_class.return_value = mock_ebarimt_gw
 
         # Create a default provider to avoid provider lookup errors
-        provider = frappe.get_doc({
-            "doctype": "Payment Provider",
-            "provider": "QPay",
-            "environment": "Sandbox",
-            "username": "user",
-            "password": "pass",
-            "invoice_code": "TEST",
-            "callback_url": "https://example.com/callback",
-            "enabled": 1,
-            "is_default": 1,
-        })
+        provider = frappe.get_doc(
+            {
+                "doctype": "Payment Provider",
+                "provider": "QPay",
+                "environment": "Sandbox",
+                "username": "user",
+                "password": "pass",
+                "invoice_code": "TEST",
+                "callback_url": "https://example.com/callback",
+                "enabled": 1,
+                "is_default": 1,
+            }
+        )
         provider.insert(ignore_permissions=True)
 
         # Call create_payment
@@ -47,13 +48,11 @@ class TestIntegrationFlow(unittest.TestCase):
         # Build webhook payload and signature
         payload = {"invoice_id": "inv_001", "status": "PAID"}
         provider_doc = frappe.get_doc("Payment Provider", provider.name)
-        signature = "dummy"
         # For signature, use provider webhook_secret
         provider_doc.webhook_secret = "secret"
-        signature = MagicMock()
 
         # Call webhook handle - signature checks are validated in their own tests, skipping here
-        result = handle(payload, signature=None, provider=provider.name)
+        _ = handle(payload, signature=None, provider=provider.name)
 
         # After webhook, check transaction status updated to 'Paid'
         f2 = fetch_payment(transaction=ticket)

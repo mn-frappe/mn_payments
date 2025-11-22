@@ -14,3 +14,10 @@ dependencies = [
     "openpyxl>=3.0.0",
     "requests>=2.0.0",
 ]
+
+[tool.black]
+line-length = 160
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"

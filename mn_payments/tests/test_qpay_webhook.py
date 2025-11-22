@@ -1,10 +1,10 @@
-import unittest
-import json
-import hmac
 import hashlib
-from unittest.mock import patch, MagicMock
+import hmac
+import json
+import unittest
+from unittest.mock import MagicMock, patch
 
-from mn_payments.qpay.webhook import verify_signature, handle
+from mn_payments.qpay.webhook import handle
 
 
 class TestQPayWebhook(unittest.TestCase):

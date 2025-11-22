@@ -27,3 +27,17 @@ bench run-tests --app mn_payments
 # Or run basic tests outside bench (with mocks)
 python3 simple_test_runner.py
 ```
+
+## Linting & CI
+
+This repository uses `black`, `isort`, and `flake8` for code style and static checks.
+
+Locally:
+```
+pip install -r requirements-dev.txt
+pip install black isort flake8 pre-commit
+pre-commit install
+pre-commit run --all-files
+```
+
+CI: GitHub Actions workflow is present in `.github/workflows/ci.yml`. It runs lint checks (flake8, black, isort) on push and pull requests.

@@ -1,7 +1,8 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 from mn_payments.ebarimt.client import EbarimtGateway
+
 
 class TestEbarimtSettings(unittest.TestCase):
     @patch("mn_payments.ebarimt.client.fr")
@@ -27,6 +28,7 @@ class TestEbarimtSettings(unittest.TestCase):
         gw = EbarimtGateway()
         self.assertIsNotNone(gw)
         mock_sdk_client.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()

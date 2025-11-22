@@ -1,0 +1,7 @@
+[flake8]
+exclude = .venv,venv,env,.git,__pycache__,node_modules,dist,run_tests.py,run_tests_new.py,run_tests_final.py,simple_test_runner.py
+max-line-length = 160
+extend-ignore = E203, W503
+per-file-ignores =
+    __init__.py:F401
+    mn_payments/sdk/ebarimt.py:F401

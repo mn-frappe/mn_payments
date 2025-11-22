@@ -1,7 +1,6 @@
-import json
-import hmac
 import hashlib
-from typing import Optional
+import hmac
+import json
 
 import frappe
 from frappe import _

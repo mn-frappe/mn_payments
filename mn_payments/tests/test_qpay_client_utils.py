@@ -1,6 +1,7 @@
 import unittest
-from decimal import Decimal
+
 from mn_payments.qpay.client import append_query_params
+
 
 class TestQPayClientUtils(unittest.TestCase):
     def test_append_query_params_new(self):

@@ -9,13 +9,13 @@ app_version = "0.1.0"
 required_apps = ["frappe"]
 
 doc_events = {
-	"Payment Transaction": {
-		"on_cancel": "mn_payments.ebarimt.tasks.scrub_individuals",
-	},
+    "Payment Transaction": {
+        "on_cancel": "mn_payments.ebarimt.tasks.scrub_individuals",
+    },
 }
 
 scheduler_events = {
-	"hourly": [
-		"mn_payments.ebarimt.tasks.scrub_individuals",
-	],
+    "hourly": [
+        "mn_payments.ebarimt.tasks.scrub_individuals",
+    ],
 }
