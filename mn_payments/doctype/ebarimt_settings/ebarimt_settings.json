@@ -1,0 +1,32 @@
+{
+ "doctype": "DocType",
+ "name": "Ebarimt Settings",
+ "module": "MN Payments",
+ "istable": 0,
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "posapi_endpoint",
+  "pos_no",
+  "merchant_tin",
+  "merchant_registration_no",
+  "auto_save_to_db",
+  "auto_send_email"
+ ],
+ "fields": [
+  {"fieldname": "enabled", "fieldtype": "Check", "label": "Enabled", "default": "0"},
+  {"fieldname": "posapi_endpoint", "fieldtype": "Data", "label": "PosAPI Endpoint", "default": "http://localhost:7080"},
+  {"fieldname": "pos_no", "fieldtype": "Data", "label": "POS No"},
+  {"fieldname": "merchant_tin", "fieldtype": "Data", "label": "Merchant TIN"},
+  {"fieldname": "merchant_registration_no", "fieldtype": "Data", "label": "Merchant Registration No"},
+  {"fieldname": "auto_save_to_db", "fieldtype": "Check", "label": "Auto Save to DB", "default": "1"},
+  {"fieldname": "auto_send_email", "fieldtype": "Check", "label": "Auto Send Email", "default": "0"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "print": 1, "email": 1, "share": 1, "export": 1}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
