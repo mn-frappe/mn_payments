@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
+from decimal import Decimal
 import frappe
 
 from mn_payments.qpay.client import QPayGateway
@@ -22,14 +23,17 @@ class TestQPayGateway(unittest.TestCase):
 		mock_invoice.invoice_id = "inv_123"
 		mock_invoice.qr_text = "qr_data"
 		mock_invoice.qr_image = "qr_img"
-		mock_sdk.invoice_create_simple.return_value = mock_invoice
+		mock_sdk.invoice_create.return_value = mock_invoice
 		mock_sdk_class.return_value = mock_sdk
 
 		gw = QPayGateway("test_provider")
 		result = gw.create_invoice(sender_code="TX001", description="Test", amount=1000)
 
 		self.assertEqual(result.invoice_id, "inv_123")
-		mock_sdk.invoice_create_simple.assert_called_once()
+		mock_sdk.invoice_create.assert_called_once()
+		# Ensure the amount passed is Decimal
+		called_request = mock_sdk.invoice_create.call_args[0][0]
+		self.assertEqual(called_request.amount, Decimal('1000'))
 
 	@patch("mn_payments.qpay.client.frappe.throw")
 	@patch("mn_payments.qpay.client.QPaySDK", None)

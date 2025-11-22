@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from decimal import Decimal
 import frappe
 from frappe import _
 
@@ -57,7 +58,7 @@ def create_payment(
 	invoice = gw.create_invoice(
 		sender_code=tx.name,
 		description=_get_description(reference_doctype, reference_name) or "Payment",
-		amount=int(total),
+		amount=Decimal(str(total)),
 		callback_params={"txn": tx.name},
 	)
 

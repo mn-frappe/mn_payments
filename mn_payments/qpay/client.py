@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from decimal import Decimal
+from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 import frappe
 from frappe import _
 
@@ -38,18 +40,21 @@ class QPayGateway:
 		doc = frappe.get_doc("Payment Provider", self.provider)
 		params = callback_params or {}
 		
-		# Build callback URL with params
-		callback_url = doc.callback_url
+		# Build callback URL with params (merge with existing qs if any)
+		callback_url = doc.callback_url or ""
 		if params:
-			from urllib.parse import urlencode
-			callback_url += "?" + urlencode(params)
+			parsed = urlparse(callback_url)
+			existing = dict(parse_qsl(parsed.query))
+			merged = {**existing, **params}
+			callback_url = urlunparse(parsed._replace(query=urlencode(merged, doseq=True)))
 		
+		# Use Decimal for amount (and QPay schema expects Decimal)
 		request = InvoiceCreateSimpleRequest(
 			invoice_code=doc.invoice_code,
 			sender_invoice_no=sender_code,
 			invoice_receiver_code="terminal",  # Default receiver code
 			invoice_description=description,
-			amount=amount,
+			amount=Decimal(str(amount)),
 			callback_url=callback_url,
 		)
 		return self.sdk.invoice_create(request)
@@ -61,6 +66,15 @@ class QPayGateway:
 			offset=Offset(page_number=1, page_limit=100),
 		)
 		return self.sdk.payment_check(request)
+
+
+def append_query_params(url: str, params: dict) -> str:
+    """Helper to merge params into a URL preserving existing query params."""
+    parsed = urlparse(url or "")
+    existing = dict(parse_qsl(parsed.query))
+    merged = {**existing, **params}
+    return urlunparse(parsed._replace(query=urlencode(merged, doseq=True)))
+    
 
 
 def _get_default_provider_name() -> str:
