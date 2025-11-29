@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "autoname": "field:gateway_name",
+ "creation": "2025-01-29 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "System",
+ "engine": "InnoDB",
+ "issingle": 1,
+ "field_order": [
+  "enabled",
+  "column_break_3",
+  "is_sandbox",
+  "section_break_credentials",
+  "username",
+  "password",
+  "column_break_8",
+  "invoice_code",
+  "sender_branch_code",
+  "section_break_callback",
+  "callback_url",
+  "section_break_advanced",
+  "token_leeway",
+  "client_retries",
+  "client_delay",
+  "column_break_16",
+  "client_jitter",
+  "payment_check_retries",
+  "payment_check_delay",
+  "payment_check_jitter"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_sandbox",
+   "fieldtype": "Check",
+   "label": "Use Sandbox"
+  },
+  {
+   "fieldname": "section_break_credentials",
+   "fieldtype": "Section Break",
+   "label": "QPay Credentials"
+  },
+  {
+   "fieldname": "username",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Username",
+   "mandatory_depends_on": "eval:doc.enabled==1"
+  },
+  {
+   "fieldname": "password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "mandatory_depends_on": "eval:doc.enabled==1"
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "invoice_code",
+   "fieldtype": "Data",
+   "label": "Invoice Code",
+   "mandatory_depends_on": "eval:doc.enabled==1"
+  },
+  {
+   "fieldname": "sender_branch_code",
+   "fieldtype": "Data",
+   "label": "Sender Branch Code"
+  },
+  {
+   "fieldname": "section_break_callback",
+   "fieldtype": "Section Break",
+   "label": "Callback Configuration"
+  },
+  {
+   "description": "Leave blank to use default: /api/method/mn_payments.api.qpay.callback",
+   "fieldname": "callback_url",
+   "fieldtype": "Data",
+   "label": "Callback URL"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_advanced",
+   "fieldtype": "Section Break",
+   "label": "Advanced Settings"
+  },
+  {
+   "description": "Seconds of leeway for token expiration (default: system default)",
+   "fieldname": "token_leeway",
+   "fieldtype": "Float",
+   "label": "Token Leeway"
+  },
+  {
+   "description": "Number of retry attempts for client requests",
+   "fieldname": "client_retries",
+   "fieldtype": "Int",
+   "label": "Client Retries"
+  },
+  {
+   "description": "Base delay in seconds between retries",
+   "fieldname": "client_delay",
+   "fieldtype": "Float",
+   "label": "Client Retry Delay"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Jitter factor for retry delays",
+   "fieldname": "client_jitter",
+   "fieldtype": "Float",
+   "label": "Client Retry Jitter"
+  },
+  {
+   "description": "Retry attempts for payment status checks",
+   "fieldname": "payment_check_retries",
+   "fieldtype": "Int",
+   "label": "Payment Check Retries"
+  },
+  {
+   "description": "Delay between payment check retries",
+   "fieldname": "payment_check_delay",
+   "fieldtype": "Float",
+   "label": "Payment Check Delay"
+  },
+  {
+   "description": "Jitter for payment check retry delays",
+   "fieldname": "payment_check_jitter",
+   "fieldtype": "Float",
+   "label": "Payment Check Jitter"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-01-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "Qpay Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

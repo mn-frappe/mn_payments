@@ -1,0 +1,230 @@
+{
+ "actions": [],
+ "autoname": "field:settings_name",
+ "creation": "2025-01-29 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "System",
+ "engine": "InnoDB",
+ "issingle": 1,
+ "field_order": [
+  "section_break_general",
+  "is_pharmacy",
+  "auto_submit_on_pos",
+  "section_break_posapi",
+  "posapi_enabled",
+  "posapi_base_url",
+  "posapi_custom_url",
+  "posapi_timeout",
+  "column_break_6",
+  "posapi_verify_ssl",
+  "posapi_username",
+  "posapi_password",
+  "posapi_api_key",
+  "section_break_tpi",
+  "tpi_enabled",
+  "tpi_base_url",
+  "tpi_custom_url",
+  "tpi_auth_url",
+  "tpi_custom_auth_url",
+  "column_break_14",
+  "tpi_client_id",
+  "tpi_username",
+  "tpi_password",
+  "section_break_advanced",
+  "tpi_timeout",
+  "tpi_verify_ssl",
+  "column_break_20",
+  "tpi_token_leeway"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_general",
+   "fieldtype": "Section Break",
+   "label": "General Settings"
+  },
+  {
+   "default": "0",
+   "description": "Enable pharmacy-specific features and validations",
+   "fieldname": "is_pharmacy",
+   "fieldtype": "Check",
+   "label": "Is Pharmacy"
+  },
+  {
+   "default": "1",
+   "description": "Automatically submit receipts to Ebarimt when POS Invoice is submitted",
+   "fieldname": "auto_submit_on_pos",
+   "fieldtype": "Check",
+   "label": "Auto Submit on POS Invoice"
+  },
+  {
+   "fieldname": "section_break_posapi",
+   "fieldtype": "Section Break",
+   "label": "PosAPI Configuration"
+  },
+  {
+   "default": "0",
+   "fieldname": "posapi_enabled",
+   "fieldtype": "Check",
+   "label": "Enable PosAPI"
+  },
+  {
+   "default": "http://localhost:7080/web/",
+   "fieldname": "posapi_base_url",
+   "fieldtype": "Select",
+   "label": "PosAPI Base URL",
+   "options": "http://localhost:7080/web/\nhttp://127.0.0.1:7080/web/\nCustom",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.posapi_base_url=='Custom'",
+   "fieldname": "posapi_custom_url",
+   "fieldtype": "Data",
+   "label": "Custom PosAPI URL"
+  },
+  {
+   "default": "10",
+   "fieldname": "posapi_timeout",
+   "fieldtype": "Float",
+   "label": "Request Timeout (seconds)"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "posapi_verify_ssl",
+   "fieldtype": "Check",
+   "label": "Verify SSL"
+  },
+  {
+   "fieldname": "posapi_username",
+   "fieldtype": "Data",
+   "label": "Username"
+  },
+  {
+   "fieldname": "posapi_password",
+   "fieldtype": "Password",
+   "label": "Password"
+  },
+  {
+   "fieldname": "posapi_api_key",
+   "fieldtype": "Password",
+   "label": "API Key"
+  },
+  {
+   "fieldname": "section_break_tpi",
+   "fieldtype": "Section Break",
+   "label": "TPI Service Configuration"
+  },
+  {
+   "default": "0",
+   "fieldname": "tpi_enabled",
+   "fieldtype": "Check",
+   "label": "Enable TPI Service"
+  },
+  {
+   "default": "https://st-api.ebarimt.mn/",
+   "fieldname": "tpi_base_url",
+   "fieldtype": "Select",
+   "label": "TPI Base URL",
+   "options": "https://api.ebarimt.mn/\nhttps://st-api.ebarimt.mn/\nCustom",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.tpi_base_url=='Custom'",
+   "fieldname": "tpi_custom_url",
+   "fieldtype": "Data",
+   "label": "Custom TPI URL"
+  },
+  {
+   "default": "https://st.auth.itc.gov.mn/auth/realms/Staging/protocol/openid-connect/token",
+   "fieldname": "tpi_auth_url",
+   "fieldtype": "Select",
+   "label": "Auth URL",
+   "options": "https://auth.itc.gov.mn/auth/realms/Production/protocol/openid-connect/token\nhttps://st.auth.itc.gov.mn/auth/realms/Staging/protocol/openid-connect/token\nCustom"
+  },
+  {
+   "depends_on": "eval:doc.tpi_auth_url=='Custom'",
+   "fieldname": "tpi_custom_auth_url",
+   "fieldtype": "Data",
+   "label": "Custom Auth URL"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "vatps",
+   "fieldname": "tpi_client_id",
+   "fieldtype": "Data",
+   "label": "Client ID"
+  },
+  {
+   "description": "TIN or organization identifier",
+   "fieldname": "tpi_username",
+   "fieldtype": "Data",
+   "label": "Username",
+   "mandatory_depends_on": "eval:doc.tpi_enabled==1"
+  },
+  {
+   "fieldname": "tpi_password",
+   "fieldtype": "Password",
+   "label": "Password",
+   "mandatory_depends_on": "eval:doc.tpi_enabled==1"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_advanced",
+   "fieldtype": "Section Break",
+   "label": "Advanced TPI Settings"
+  },
+  {
+   "default": "15",
+   "fieldname": "tpi_timeout",
+   "fieldtype": "Float",
+   "label": "TPI Request Timeout"
+  },
+  {
+   "default": "1",
+   "fieldname": "tpi_verify_ssl",
+   "fieldtype": "Check",
+   "label": "TPI Verify SSL"
+  },
+  {
+   "fieldname": "column_break_20",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "30",
+   "description": "Seconds of leeway for token expiration",
+   "fieldname": "tpi_token_leeway",
+   "fieldtype": "Float",
+   "label": "Token Leeway"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-01-29 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "MN Payments",
+ "name": "Ebarimt Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

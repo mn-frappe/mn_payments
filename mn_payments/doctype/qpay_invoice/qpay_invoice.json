@@ -1,0 +1,154 @@
+{
+ "doctype": "DocType",
+ "name": "Qpay Invoice",
+ "module": "MN Payments",
+ "autoname": "field:invoice_id",
+ "naming_rule": "By fieldname",
+ "editable_grid": 0,
+ "track_changes": 1,
+ "track_seen": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "payment_request",
+  "invoice_id",
+  "invoice_code",
+  "status",
+  "last_payment_check",
+  "payment_amount",
+  "payment_currency",
+  "qr_section",
+  "qr_text",
+  "qr_image",
+  "urls",
+  "payload_section",
+  "request_payload",
+  "response_payload",
+  "payment_result"
+ ],
+ "fields": [
+  {
+   "fieldname": "payment_request",
+   "fieldtype": "Link",
+   "label": "Payment Request",
+   "options": "Payment Request",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "invoice_id",
+   "fieldtype": "Data",
+   "label": "Invoice ID",
+   "reqd": 1,
+  "in_list_view": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "invoice_code",
+   "fieldtype": "Data",
+   "label": "Invoice Code",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nPaid\nFailed\nCancelled",
+   "default": "Pending",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "last_payment_check",
+   "fieldtype": "Datetime",
+   "label": "Last Payment Check",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_amount",
+   "fieldtype": "Currency",
+   "label": "Payment Amount",
+   "in_list_view": 1,
+   "read_only": 1,
+   "options": "payment_currency"
+  },
+  {
+   "fieldname": "payment_currency",
+   "fieldtype": "Data",
+   "label": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qr_section",
+   "fieldtype": "Section Break",
+   "label": "QR"
+  },
+  {
+   "fieldname": "qr_text",
+   "fieldtype": "Long Text",
+   "label": "QR Text",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qr_image",
+   "fieldtype": "Long Text",
+   "label": "QR Image (Base64)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "urls",
+   "fieldtype": "JSON",
+   "label": "URLs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payload_section",
+   "fieldtype": "Section Break",
+   "label": "Payloads"
+  },
+  {
+   "fieldname": "request_payload",
+   "fieldtype": "Code",
+   "label": "Request Payload",
+   "read_only": 1
+  },
+  {
+   "fieldname": "response_payload",
+   "fieldtype": "Code",
+   "label": "Response Payload",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payment_result",
+   "fieldtype": "Code",
+   "label": "Payment Result",
+   "read_only": 1
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1,
+   "export": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "share": 1,
+   "print": 1,
+   "email": 1,
+   "export": 1
+  }
+ ],
+ "quick_entry": 0,
+ "allow_rename": 0
+}

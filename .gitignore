@@ -5,3 +5,17 @@
 tags
 node_modules
 __pycache__
+.vscode/
+.idea/
+*.log
+dist/
+build/
+*.bak
+.pytest_cache/
+.coverage
+htmlcov/
+develop/
+.env
+.venv
+env/
+venv/
