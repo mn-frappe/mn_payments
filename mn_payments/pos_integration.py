@@ -58,54 +58,94 @@ def _build_receipt_from_pos_invoice(doc, settings):
 		# Calculate VAT
 		vat_amount = _calculate_vat(item, doc)
 		
+		# Build item according to PosAPI.yaml schema
 		item_data = {
 			"name": item.item_name or item.item_code,
 			"barCode": item.get("barcode") or "",
+			"barCodeType": item.get("barcode_type") or "UNDEFINED",
 			"classificationCode": item.get("classification_code") or "",
+			"taxProductCode": item.get("tax_product_code") or None,
+			"measureUnit": item.uom or "ш",
 			"qty": item.qty,
 			"unitPrice": item.rate,
+			"totalVAT": vat_amount,
+			"totalCityTax": city_tax,
 			"totalAmount": item.amount,
-			"cityTax": city_tax,
-			"vat": vat_amount,
 		}
 		
-		# Pharmacy-specific fields
-		if is_pharmacy:
-			item_data.update({
-				"barCodeType": item.get("barcode_type") or "GS1",
-				"measureUnit": item.uom or "ш",
-			})
+		# Pharmacy-specific data (lotNo for serial number)
+		if is_pharmacy and item.get("serial_no"):
+			item_data["data"] = {
+				"lotNo": item.get("serial_no")
+			}
 		
 		items.append(item_data)
 	
 	# Calculate total VAT
 	total_vat = sum(_calculate_vat(item, doc) for item in doc.items)
 	
-	# Build main receipt payload
+	# Get customer information
+	customer_info = _get_customer_info(doc.customer)
+	
+	# Determine receipt type based on customer type
+	# B2B_RECEIPT: Business to Business (uses customerTin)
+	# B2C_RECEIPT: Business to Consumer (uses consumerNo)
+	receipt_type = "B2B_RECEIPT" if customer_info.get("type") == "company" else "B2C_RECEIPT"
+	
+	# Build main receipt payload according to PosAPI.yaml schema
 	receipt = {
-		"amount": doc.grand_total,
-		"vat": total_vat,
-		"cityTax": total_city_tax,
+		"totalAmount": doc.grand_total,
+		"totalVAT": total_vat,
+		"totalCityTax": total_city_tax,
 		"districtCode": doc.get("district_code") or "",
+		"merchantTin": doc.get("tax_id") or "",  # Seller's tax ID
 		"branchNo": doc.get("pos_profile") or "001",
 		"posNo": doc.get("pos_terminal") or "001",
-		"billType": "3" if is_pharmacy else "1",  # 3=pharmacy, 1=general
-		"customerNo": doc.customer,
+		"type": receipt_type,
 		"billIdSuffix": doc.name[-8:] if len(doc.name) > 8 else doc.name,
-		"returnBillId": doc.get("return_against") or None,
-		"stocks": items,
+		"inactiveId": doc.get("return_against") or None,
+		"reportMonth": None,
 	}
 	
-	# Add payments
+	# Add customer identification based on type (per PosAPI.yaml schema)
+	if customer_info.get("type") == "company":
+		# B2B: Company customer - use customerTin
+		receipt["customerTin"] = customer_info.get("regno") or ""
+		receipt["consumerNo"] = ""
+	else:
+		# B2C: Individual customer - use consumerNo
+		receipt["customerTin"] = None
+		receipt["consumerNo"] = customer_info.get("regno") or ""
+	
+	# Build sub-receipt (receipts array per PosAPI.yaml schema)
+	sub_receipt = {
+		"totalAmount": doc.grand_total,
+		"totalVAT": total_vat,
+		"totalCityTax": total_city_tax,
+		"taxType": "VAT_ABLE",  # Default, should be determined by items
+		"merchantTin": doc.get("tax_id") or "",
+		"customerTin": None,
+		"bankAccountNo": "",
+		"iBan": "",
+		"invoiceId": None,
+		"items": items,
+	}
+	
+	receipt["receipts"] = [sub_receipt]
+	
+	# Add payments (per PosAPI.yaml schema)
 	payments = []
 	for payment in doc.payments:
-		payments.append({
+		payment_data = {
 			"code": _get_payment_code(payment.mode_of_payment),
-			"amount": payment.amount,
-		})
+			"status": "PAID",
+			"paidAmount": payment.amount,
+			"data": None,  # Required by schema, can be null for non-card payments
+		}
+		payments.append(payment_data)
 	receipt["payments"] = payments
 	
-	return {"receipts": [receipt]}
+	return receipt
 
 
 def _calculate_city_tax(item, doc):
@@ -179,14 +219,69 @@ def _calculate_vat(item, doc):
 
 
 def _get_payment_code(mode_of_payment):
-	"""Map ERPNext payment mode to Ebarimt payment codes."""
+	"""Map ERPNext payment mode to Ebarimt payment codes per PosAPI.yaml schema.
 	
-	mapping = {
-		"Cash": "CASH",
-		"Card": "CARD",
-		"QPay": "QPAY",
-		"Social Pay": "SOCIALPAY",
-		"Bank Transfer": "TRANSFER",
-	}
+	Valid codes:
+	- CASH: Cash payment
+	- PAYMENT_CARD: Card payment
+	"""
 	
-	return mapping.get(mode_of_payment, "CASH")
+	# Map card-related payments to PAYMENT_CARD
+	card_modes = ["Card", "Credit Card", "Debit Card", "Bank Card"]
+	
+	if mode_of_payment in card_modes:
+		return "PAYMENT_CARD"
+	
+	# Everything else defaults to CASH (including QPay, Social Pay, Bank Transfer)
+	return "CASH"
+
+
+def _get_customer_info(customer_name):
+	"""Get customer registration number and type information.
+	
+	Returns:
+		dict: {
+			"regno": Tax registration number or citizen ID,
+			"name": Company name (for legal entities only),
+			"type": "company" or "individual"
+		}
+	"""
+	
+	if not customer_name:
+		return {"regno": "", "name": "", "type": "individual"}
+	
+	try:
+		customer = frappe.get_cached_doc("Customer", customer_name)
+		
+		# Check if customer is a company/legal entity
+		customer_type = customer.customer_type or "Individual"
+		
+		result = {
+			"regno": "",
+			"name": "",
+			"type": "company" if customer_type == "Company" else "individual"
+		}
+		
+		# Get registration number from custom field or tax_id
+		regno = (
+			customer.get("tax_id") 
+			or customer.get("registration_number")
+			or customer.get("regno")
+			or customer.get("company_registration_number")
+			or ""
+		)
+		
+		result["regno"] = regno
+		
+		# For companies, include the company name
+		if result["type"] == "company":
+			result["name"] = customer.customer_name or customer_name
+		
+		return result
+		
+	except Exception as exc:
+		frappe.log_error(
+			frappe.get_traceback(),
+			title=f"Failed to fetch customer info for {customer_name}"
+		)
+		return {"regno": "", "name": "", "type": "individual"}
