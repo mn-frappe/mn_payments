@@ -246,7 +246,22 @@ bench --site [sitename] run-tests --module mn_payments.tests.test_qpay_api
 | qpay-client | >= 0.3.2 | ✅ Compatible |
 | pydantic | >= 2.0 | ✅ Compatible |
 | httpx | >= 0.23 | ✅ Compatible (via qpay-client) |
-| Python | >= 3.12 | ✅ Compatible |
+| Python | 3.9 - 3.12 | ✅ Compatible |
+
+### Python Version Compatibility
+
+The mn_payments app is fully compatible with Python 3.9+:
+
+- ✅ **Python 3.9**: Full support
+- ✅ **Python 3.10**: Full support  
+- ✅ **Python 3.11**: Full support
+- ✅ **Python 3.12**: Full support (tested)
+
+**Compatibility Features:**
+- Uses `from __future__ import annotations` for PEP 563 postponed evaluation
+- Modern type hints (`|` union syntax, `dict[...]`, `list[...]`) work as string annotations
+- No Python 3.10+ specific features (match statements, etc.)
+- Backward compatible with older Python versions while using modern syntax
 
 ---
 

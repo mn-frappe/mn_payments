@@ -228,12 +228,21 @@ Automatically installed via `pyproject.toml`:
 
 ```toml
 [project]
+requires-python = ">=3.9"
 dependencies = [
     "frappe",
     "qpay-client>=0.3.2",  # Official QPay client library
     "requests>=2.25.0"
 ]
 ```
+
+**Python Version Support:**
+- ✅ Python 3.9+
+- ✅ Python 3.10+
+- ✅ Python 3.11+
+- ✅ Python 3.12+ (tested)
+
+**Note**: Uses `from __future__ import annotations` for forward compatibility with modern type hints while maintaining backward compatibility with Python 3.9+.
 
 ### Required ERPNext Apps
 - `erpnext` (for POS Invoice integration)
